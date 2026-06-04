@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-void: #0B0F19;
+  --surface-1: #161B26;
+  --surface-2: #12121C;
+  --gold: #C9A84C;
+  --silver: #E2E8F0;
+  --muted: #94A3B8;
+  --dim: #475569;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--silver);
+  overflow-x: hidden;
+}
+
+/* --- Premium Custom Animations --- */
+
+/* Floating cards */
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
+}
+@keyframes floatDown {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(10px) scale(0.99); }
+}
+
+.animate-float-up {
+  animation: floatUp 6s ease-in-out infinite;
+}
+.animate-float-down {
+  animation: floatDown 5s ease-in-out infinite;
+}
+
+/* Gold Pulse Effect */
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(201,168,76, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(201,168,76, 0.6); }
+}
+.gold-pulse {
+  animation: goldPulse 3s infinite;
+}
+
+/* Text Cursor Typewriter */
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 0.8s infinite;
+  color: var(--gold);
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --- Core UI Elements --- */
+.metric-card {
+  background: linear-gradient(145deg, rgba(26,26,46,0.6) 0%, rgba(18,18,28,0.8) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  transition: all 0.3s ease;
+}
+.metric-card:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  box-shadow: 0 10px 30px rgba(201, 168, 76, 0.1);
+}
+
+.gold-bar {
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.btn-gold {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-gold:hover {
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 0 25px rgba(201, 168, 76, 0.4);
+}
+
+/* Grid & Glow overlays */
+.grid-lines {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+}
+
+.gold-glow-radial {
+  background: radial-gradient(circle at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%);
+}

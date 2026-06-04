@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-void: #030712; 
+  --accent-blue: #3B82F6; 
+  --accent-cyan: #06B6D4; 
+  --surface-glass: rgba(10, 15, 30, 0.7); 
+}
+
+body {
+  background-color: var(--bg-void) !important;
+  color: #F3F4F6 !important;
+  font-family: sans-serif;
+  overflow-x: hidden;
+}
+
+/* --- Zynhive Background Grid Pattern --- */
+.grid-bg {
+  background-size: 60px 60px;
+  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+}
+
+/* --- Typing Cursor Effect --- */
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 0.8s infinite;
+  color: var(--accent-blue);
+  font-weight: 200;
+  margin-left: 2px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --- Card Scrolling Slide In Animation --- */
+.scroll-slide {
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- NEW: Orbit Spinning Animations --- */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes spin-reverse-slow {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 25s linear infinite;
+}
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 35s linear infinite;
+}
