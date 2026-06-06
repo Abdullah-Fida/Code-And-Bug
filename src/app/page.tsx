@@ -157,7 +157,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030712] text-gray-100 font-sans selection:bg-cyan-500 selection:text-white relative overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen bg-[#030712] text-gray-100 font-sans selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
       
       {/* CSS For Global Reveal Animations & Cursor */}
       <style dangerouslySetInnerHTML={{__html: `
@@ -177,6 +177,12 @@ export default function Home() {
           margin-left: 2px;
         }
         @keyframes blink { 50% { opacity: 0; } }
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .mobile-dropdown { animation: slideDown 0.2s ease forwards; }
+        * { -webkit-tap-highlight-color: transparent; }
       `}} />
 
       {/* Background Video Layer - Absolute viewport locked */}
@@ -222,7 +228,7 @@ export default function Home() {
 
         {/* Mobile Navigation Panel */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 max-w-sm mx-auto rounded-2xl border border-gray-800 bg-gray-950/95 backdrop-blur-2xl p-4 flex flex-col space-y-2 text-xs font-semibold uppercase tracking-wider text-gray-400 shadow-2xl transition-all animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="mobile-dropdown md:hidden mt-2 w-[calc(100vw-1.5rem)] max-w-sm mx-auto rounded-2xl border border-gray-800 bg-gray-950/95 backdrop-blur-2xl p-4 flex flex-col space-y-2 text-xs font-semibold uppercase tracking-wider text-gray-400 shadow-2xl transition-opacity">
             <a href="#home" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:bg-gray-900 px-4 py-2.5 rounded-xl transition-all">Home</a>
             <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:bg-gray-900 px-4 py-2.5 rounded-xl transition-all">About</a>
             <a href="#services" onClick={() => setMobileMenuOpen(false)} className="hover:text-white hover:bg-gray-900 px-4 py-2.5 rounded-xl transition-all">Services</a>
@@ -234,7 +240,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="relative pt-6 pb-12 md:pt-24 md:pb-24 max-w-7xl mx-auto px-3 sm:px-6 overflow-hidden">
+      <section id="home" className="relative pt-6 pb-12 md:pt-24 md:pb-24 max-w-7xl mx-auto px-3 sm:px-6">
         <div className="absolute top-[-5%] left-1/4 w-[180px] sm:w-[600px] lg:w-[800px] h-[300px] bg-cyan-600/10 blur-[120px] rounded-full pointer-events-none z-[1]" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center relative z-10 w-full">
@@ -304,7 +310,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 md:py-24 border-t border-gray-900 bg-[#02050B] w-full overflow-hidden">
+      <section id="about" className="py-12 md:py-24 border-t border-gray-900 bg-[#02050B] w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <Reveal className="space-y-4 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
@@ -351,7 +357,7 @@ export default function Home() {
       </section>
 
       {/* --- SERVICES SECTION --- */}
-      <section id="services" className="py-12 md:py-24 border-t border-gray-900 bg-[#030712] w-full overflow-hidden">
+      <section id="services" className="py-12 md:py-24 border-t border-gray-900 bg-[#030712] w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <Reveal className="mb-8 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
             <h2 className="text-xl sm:text-4xl font-bold tracking-tight text-white mb-2">
@@ -403,7 +409,7 @@ export default function Home() {
       </section>
 
       {/* --- FLEXIBLE 6-STEP PROCESS SECTION --- */}
-      <section id="process" className="py-12 md:py-24 border-t border-gray-900 bg-[#02050B] w-full overflow-hidden">
+      <section id="process" className="py-12 md:py-24 border-t border-gray-900 bg-[#02050B] w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <Reveal className="mb-6 text-center lg:text-left">
             <h2 className="text-xl md:text-5xl font-extrabold text-white leading-tight mb-2">
@@ -454,7 +460,7 @@ export default function Home() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="py-12 md:py-24 border-t border-gray-900 bg-[#030712] w-full overflow-hidden">
+      <section id="contact" className="py-12 md:py-24 border-t border-gray-900 bg-[#030712] w-full">
         <div className="max-w-7xl mx-auto px-3 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start w-full">
             
