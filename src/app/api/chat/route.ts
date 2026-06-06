@@ -1,61 +1,69 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+import { google } from "googleapis";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const userMessage = body.message;
 
-    if (!userMessage) {
-      return NextResponse.json({ reply: "Message is empty." }, { status: 400 });
+    // Vapi sends tool parameters inside message.toolCalls
+    let args = body;
+    if (body.message && body.message.toolCalls && body.message.toolCalls.length > 0) {
+       args = body.message.toolCalls[0].function.arguments;
     }
 
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      messages: [
-        {
-          role: "system",
-          content: `You are a professional AI assistant for a software agency called "Code&Bugs".
-Your tone should be helpful, technical yet easy to understand, and polite.
+    const { name, email, date, time, service } = args;
 
-Important information about Code&Bugs:
-- Owner: Moazzam Sultan
-- Moazzam Sultan is a Software Engineering student at University of Central Punjab (UCP).
-- Services offered by Code&Bugs:
-  1. Web Development
-  2. App Development
-  3. Architectural Designs
-  4. Interior Designs
-  5. Data Analytics
-  6. SEO (Search Engine Optimization)
-  7. GEO (Generative Engine Optimization)
-  8. Software Development
-  9. AI Chat Bots
-  10. AI Call Agents
+    // Check if required fields are present
+    if (!name || !email || !date || !time) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
 
-Rules:
-- If anyone asks about the owner, always say: "The owner of Code&Bugs is Moazzam Sultan, a Software Engineering student at University of Central Punjab."
-- If anyone asks about services, list the above services confidently.
-- Never make up or guess any information about Code&Bugs.
-- Always represent Code&Bugs in a professional and positive manner.`,
-        },
-        { role: "user", content: userMessage },
-      ],
-      max_tokens: 1024,
+    // Google Service Account Authentication
+    const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY as string);
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ["https://www.googleapis.com/auth/calendar.events"],
     });
 
-    const responseText = completion.choices[0].message.content;
-    return NextResponse.json({ reply: responseText });
+    const calendar = google.calendar({ version: "v3", auth });
+
+    // Format Date and Time for Pakistan Timezone (Asia/Karachi)
+    const startDateTime = `${date}T${time}:00+05:00`; 
+    // Create an end time 1 hour after the start time
+    const endDateTimeObj = new Date(new Date(startDateTime).getTime() + 60 * 60 * 1000); 
+    const endDateTime = endDateTimeObj.toISOString();
+
+    // Insert Event into Google Calendar
+    const event = await calendar.events.insert({
+      calendarId: "dev.moazamsultan@gmail.com", // Aapka calendar ID
+      sendUpdates: "all", // User ko automatic email notification bhejega
+      requestBody: {
+        summary: `Code&Bugs Consultation: ${name}`,
+        description: `Service Requested: ${service || "General Technical Consultation"}\nBooked via Code&Bugs AI Assistant.`,
+        start: {
+          dateTime: startDateTime,
+          timeZone: "Asia/Karachi",
+        },
+        end: {
+          dateTime: endDateTime,
+          timeZone: "Asia/Karachi",
+        },
+        attendees: [
+          { email: email } // User ki email yahan add ho gayi
+        ],
+      },
+    });
+
+    // Vapi ko response dena zaroori hai
+    return NextResponse.json({
+      results: [{
+        toolCallId: body.message?.toolCalls?.[0]?.id,
+        result: `Appointment successfully booked for ${name}. Calendar invite sent to ${email}.`
+      }]
+    });
 
   } catch (error) {
-    console.error("Groq API Error:", error);
-    return NextResponse.json(
-      { reply: "Sorry! Server error. Please try again later." },
-      { status: 500 }
-    );
+    console.error("Calendar API Error:", error);
+    return NextResponse.json({ error: "Failed to book appointment" }, { status: 500 });
   }
 }
