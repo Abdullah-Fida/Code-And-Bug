@@ -83,10 +83,17 @@ const TypingEffect = () => {
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', project: '' });
   const [submitted, setSubmitted] = useState(false);
-  const [videoSrc, setVideoSrc] = useState("/video1.mp4");
+  
+  // --- Video Update: .mp4 to .webm ---
+  const [videoSrc, setVideoSrc] = useState("/video1.webm");
   
   const [activeProcessStep, setActiveProcessStep] = useState(0);
   const [isTeamVisible, setIsTeamVisible] = useState(false);
+
+  // --- NEW STATES FOR CALL UI & CONFIRMATION ---
+  const [isCalling, setIsCalling] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [apptData, setApptData] = useState({ name: '', email: '', phone: '', date: '', time: '' });
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -97,12 +104,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const videos = ["/video1.mp4", "/video2.mp4"];
+    const videos = ["/video1.webm", "/video2.webm"];
     setVideoSrc(videos[Math.floor(Math.random() * videos.length)]);
   }, []);
 
-  const handleVideoEnded = () => setVideoSrc(prev => prev === "/video1.mp4" ? "/video2.mp4" : "/video1.mp4");
-  const handleNextVideo = () => setVideoSrc(prev => prev === "/video1.mp4" ? "/video2.mp4" : "/video1.mp4");
+  const handleVideoEnded = () => setVideoSrc(prev => prev === "/video1.webm" ? "/video2.webm" : "/video1.webm");
+  const handleNextVideo = () => setVideoSrc(prev => prev === "/video1.webm" ? "/video2.webm" : "/video1.webm");
 
   // Scroll-Spy for 6-Step Process
   useEffect(() => {
@@ -156,7 +163,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030712] text-gray-100 font-sans selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#030712] text-gray-100 font-sans selection:bg-cyan-500 selection:text-white relative overflow-clip">
       
       {/* CSS For Global Reveal Animations & Cursor */}
       <style dangerouslySetInnerHTML={{__html: `
@@ -181,7 +188,7 @@ export default function Home() {
       {/* Background Video */}
       <div className="absolute top-0 left-0 w-full h-[100vh] z-0 opacity-50 pointer-events-none mix-blend-screen overflow-hidden">
         <video key={videoSrc} autoPlay muted playsInline onEnded={handleVideoEnded} className="w-full h-full object-cover object-center scale-100 brightness-[0.5]">
-          <source src={videoSrc} type="video/mp4" />
+          <source src={videoSrc} type="video/webm" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-[#030712]" />
       </div>
@@ -315,55 +322,57 @@ export default function Home() {
               </ul>
             </Reveal>
 
-            <Reveal delay={200} className="relative w-full aspect-square max-w-[450px] mx-auto flex items-center justify-center scale-[0.85] sm:scale-100 origin-center">
+            {/* FIX: Replaced purely scaling method with explicitly responsive fixed dimensions */}
+            <Reveal delay={200} className="relative w-[260px] h-[260px] sm:w-[350px] sm:h-[350px] lg:w-[450px] lg:h-[450px] mx-auto flex items-center justify-center mt-8 lg:mt-0">
+              
               <div className="absolute w-full h-full rounded-full border border-gray-800/80 animate-spin" style={{ animationDuration: '30s', animationTimingFunction: 'linear' }}>
-                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_#06B6D4] -translate-x-1/2 -translate-y-1/2" />
+                <div className="absolute top-0 left-1/2 w-2 h-2 sm:w-3 sm:h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_#06B6D4] -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute top-[14.6%] left-[85.3%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '30s', animationTimingFunction: 'linear', animationDirection: 'reverse' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
-                      <div className="text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">LLM Ready</div>
-                      <div className="text-xs font-bold text-cyan-400">GPT-4o</div>
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                      <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">LLM Ready</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-cyan-400">GPT-4o</div>
                     </div>
                   </div>
                 </div>
                 <div className="absolute top-[85.3%] left-[14.6%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '30s', animationTimingFunction: 'linear', animationDirection: 'reverse' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
-                      <div className="text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Accuracy</div>
-                      <div className="text-xs font-bold text-white">97.3%</div>
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                      <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Accuracy</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-white">97.3%</div>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div className="absolute w-[75%] h-[75%] rounded-full border border-gray-800/60 animate-spin" style={{ animationDuration: '40s', animationTimingFunction: 'linear', animationDirection: 'reverse' }}>
-                <div className="absolute top-1/2 right-0 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_10px_#3B82F6] translate-x-1/2 -translate-y-1/2" />
+                <div className="absolute top-1/2 right-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-400 rounded-full shadow-[0_0_10px_#3B82F6] translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute top-[14.6%] left-[14.6%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '40s', animationTimingFunction: 'linear', animationDirection: 'normal' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
-                      <div className="text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Response</div>
-                      <div className="text-xs font-bold text-white">&lt; 1ms</div>
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                      <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Response</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-white">&lt; 1ms</div>
                     </div>
                   </div>
                 </div>
                 <div className="absolute top-[85.3%] left-[85.3%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '40s', animationTimingFunction: 'linear', animationDirection: 'normal' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-3 py-2 rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
-                      <div className="text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Uptime</div>
-                      <div className="text-xs font-bold text-cyan-400">99.9%</div>
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                      <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Uptime</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-cyan-400">99.9%</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="absolute w-[50%] h-[50%] rounded-full border border-gray-800/40 animate-spin" style={{ animationDuration: '20s', animationTimingFunction: 'linear' }}>
-                <div className="absolute bottom-0 left-1/2 w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_#06B6D4] -translate-x-1/2 translate-y-1/2" />
+                <div className="absolute bottom-0 left-1/2 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_#06B6D4] -translate-x-1/2 translate-y-1/2" />
               </div>
 
-              <div className="relative z-10 w-36 h-36 bg-[#0b1120] border border-gray-700/80 rounded-2xl flex flex-col items-center justify-center shadow-2xl backdrop-blur-md">
-                <div className="p-3 bg-cyan-500/10 rounded-xl mb-3"><Network className="w-6 h-6 text-cyan-400" /></div>
-                <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">AI Core</div>
-                <div className="text-xs text-gray-400 mt-1">Always Learning</div>
+              <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 bg-[#0b1120] border border-gray-700/80 rounded-2xl flex flex-col items-center justify-center shadow-2xl backdrop-blur-md">
+                <div className="p-2 sm:p-3 bg-cyan-500/10 rounded-xl mb-2 sm:mb-3"><Network className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" /></div>
+                <div className="text-[8px] sm:text-[10px] font-mono tracking-widest text-cyan-400 uppercase">AI Core</div>
+                <div className="text-[10px] sm:text-xs text-gray-400 mt-1">Always Learning</div>
               </div>
             </Reveal>
           </div>
@@ -474,8 +483,9 @@ export default function Home() {
               })}
             </Reveal>
 
-            <div className="lg:col-span-7 lg:sticky lg:top-24 w-full mt-10 lg:mt-0">
-              <Reveal delay={200} className="h-[400px] sm:h-[500px] lg:h-[600px] w-full border border-gray-800/80 bg-[#050811] shadow-2xl overflow-hidden rounded-3xl flex items-center justify-center">
+            {/* RIGHT SIDE: Radar Graphic (Hidden on Mobile, Sticky on Desktop) */}
+            <div className="hidden lg:block lg:col-span-7 sticky top-28 self-start w-full z-20">
+              <Reveal delay={200} className="h-[600px] w-full border border-gray-800/80 bg-[#050811] shadow-2xl overflow-hidden rounded-3xl flex items-center justify-center">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:32px_32px]" />
                 
                 <div className="relative flex items-center justify-center w-[400px] h-[400px] scale-[0.65] sm:scale-90 md:scale-100 origin-center">
@@ -525,7 +535,7 @@ export default function Home() {
       <section className="relative py-32 border-t border-gray-900 bg-[#02050B] overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-50 pointer-events-none mix-blend-screen">
           <video autoPlay muted loop playsInline className="w-full h-full object-cover object-center">
-            <source src="/video3.mp4" type="video/mp4" />
+            <source src="/video3.webm" type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-[#030712]/60" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-10" />
@@ -701,8 +711,124 @@ export default function Home() {
           </div>
         </Reveal>
       </footer>
-         <Chatbox />
-         <CallAgent/>
+
+      {/* --- FLOATING WIDGETS WRAPPER WITH HOVER BADGES --- */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4 items-end pointer-events-none">
+        
+        {/* Chat Bot Element */}
+        <div className="group relative pointer-events-auto flex items-center justify-end">
+          <div className="absolute right-full mr-4 px-3 py-1.5 bg-[#0b1120] border border-gray-700 text-cyan-400 text-[10px] font-mono tracking-widest uppercase rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 whitespace-nowrap shadow-lg">
+            AI Chat Bot
+          </div>
+          <div className="relative">
+            <Chatbox />
+          </div>
+        </div>
+
+        {/* Call Agent Element */}
+        <div className="group relative pointer-events-auto flex items-center justify-end">
+          <div className="absolute right-full mr-4 px-3 py-1.5 bg-[#0b1120] border border-cyan-500/40 text-white text-[10px] font-mono tracking-widest uppercase rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 whitespace-nowrap shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+            Call Agent
+          </div>
+          <div className="relative">
+            <CallAgent 
+               onCallStart={() => setIsCalling(true)} 
+               onCallEnd={(data: any) => { 
+                  setIsCalling(false); 
+                  if(data) setApptData({...apptData, ...data});
+                  setShowConfirmation(true); 
+               }} 
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* --- MIDDLE SCREEN CALLING UI MODAL (ANIMATED) --- */}
+      <div 
+        className={`fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 ${
+          isCalling ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"
+        }`}
+      >
+        <div 
+          className={`bg-[#0b1120] border border-cyan-500/30 p-8 md:p-12 rounded-[2rem] shadow-[0_0_50px_rgba(6,182,212,0.15)] flex flex-col items-center text-center transition-all duration-500 ease-out transform ${
+            isCalling ? "scale-100 translate-y-0" : "scale-75 translate-y-10"
+          }`}
+        >
+          <div className="relative mb-8 mt-4">
+            <div className="absolute inset-0 bg-cyan-500 rounded-full animate-ping opacity-20" style={{ animationDuration: '2s' }}></div>
+            <div className="absolute inset-2 bg-cyan-400 rounded-full animate-ping opacity-40" style={{ animationDuration: '2s', animationDelay: '0.5s' }}></div>
+            <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-[#0b1120] to-[#02050b] border border-cyan-500/50 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <div className="flex gap-1.5 items-center">
+                <div className="w-1.5 h-6 bg-cyan-400 rounded-full animate-[bounce_1s_infinite_0.1s]"></div>
+                <div className="w-1.5 h-10 bg-cyan-400 rounded-full animate-[bounce_1s_infinite_0.2s]"></div>
+                <div className="w-1.5 h-6 bg-cyan-400 rounded-full animate-[bounce_1s_infinite_0.3s]"></div>
+              </div>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">Code&Bugs AI Agent</h2>
+          <p className="text-cyan-400 font-mono text-[10px] uppercase tracking-widest animate-pulse mb-10">Secure Line Connected...</p>
+          <button 
+            onClick={() => setIsCalling(false)} 
+            className="px-8 py-3 bg-red-500/10 border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(239,68,68,0)] hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+          >
+            End Call Manually
+          </button>
+        </div>
+      </div>
+
+      {/* --- AFTER-CALL CONFIRMATION MODAL (ANIMATED) --- */}
+      <div 
+        className={`fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 ${
+          showConfirmation ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"
+        }`}
+      >
+        <div 
+          className={`bg-[#0b1120] border border-gray-800 p-8 rounded-[2rem] w-full max-w-md shadow-2xl transition-all duration-500 ease-out transform ${
+            showConfirmation ? "scale-100 translate-y-0" : "scale-75 translate-y-10"
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-6 border-b border-gray-800/80 pb-4">
+            <div className="w-10 h-10 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+              <CircleCheck className="w-5 h-5 text-cyan-400" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Confirm Details</h2>
+              <p className="text-xs text-gray-400 font-mono">Verify appointment data</p>
+            </div>
+          </div>
+
+          <div className="space-y-4 mb-8">
+            <div>
+              <label className="text-[10px] text-gray-500 font-mono uppercase tracking-widest ml-1 mb-1 block">Full Name</label>
+              <input value={apptData.name} onChange={e => setApptData({...apptData, name: e.target.value})} className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. Moazzam Sultan" />
+            </div>
+            <div>
+              <label className="text-[10px] text-gray-500 font-mono uppercase tracking-widest ml-1 mb-1 block">Email Address</label>
+              <input type="email" value={apptData.email} onChange={e => setApptData({...apptData, email: e.target.value})} className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="email@domain.com" />
+            </div>
+            <div>
+              <label className="text-[10px] text-gray-500 font-mono uppercase tracking-widest ml-1 mb-1 block">Phone Number</label>
+              <input value={apptData.phone} onChange={e => setApptData({...apptData, phone: e.target.value})} className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="+92 3XX XXXXXXX" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-[10px] text-gray-500 font-mono uppercase tracking-widest ml-1 mb-1 block">Date</label>
+                <input type="date" value={apptData.date} onChange={e => setApptData({...apptData, date: e.target.value})} className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+              </div>
+              <div>
+                <label className="text-[10px] text-gray-500 font-mono uppercase tracking-widest ml-1 mb-1 block">Time</label>
+                <input type="time" value={apptData.time} onChange={e => setApptData({...apptData, time: e.target.value})} className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <button onClick={() => setShowConfirmation(false)} className="flex-1 py-3 text-xs font-bold text-gray-400 bg-transparent border border-gray-800 rounded-xl hover:text-white hover:border-gray-600 transition-colors">Cancel</button>
+            <button onClick={() => setShowConfirmation(false)} className="flex-[2] py-3 text-xs font-bold text-[#030712] bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-colors shadow-[0_0_15px_rgba(6,182,212,0.2)]">Confirm Booking</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
