@@ -7,7 +7,7 @@ import {
   Terminal, Globe, Smartphone, BarChart, Compass, Home as HomeIcon, 
   MessageSquareCode, TrendingUp, Search, ArrowRight, ShieldCheck, Video, 
   CircleCheck, Network, Lock, MessageCircle, Mail, MapPin, ArrowUpRight,
-  Calendar 
+  Calendar, ExternalLink, Building2, Heart, Stethoscope, Briefcase
 } from 'lucide-react';
 
 // --- 1. REUSABLE REVEAL ANIMATION ---
@@ -186,16 +186,17 @@ export default function Home() {
       `}} />
 
       {/* Background Video */}
-      <div className="absolute top-0 left-0 w-full h-[100vh] z-0 opacity-50 pointer-events-none mix-blend-screen overflow-hidden">
-        <video key={videoSrc} autoPlay muted playsInline onEnded={handleVideoEnded} className="w-full h-full object-cover object-center scale-100 brightness-[0.5]">
+      <div className="absolute top-0 left-0 w-full h-[100vh] z-0 pointer-events-none overflow-hidden bg-[#030712]" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+        <video key={videoSrc} autoPlay muted loop playsInline preload="auto" onEnded={handleVideoEnded} className="w-full h-full object-cover object-center" style={{ willChange: 'transform', transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden' }}>
           <source src={videoSrc} type="video/webm" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-[#030712]" />
+        <div className="absolute inset-0 bg-black/70 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-[#030712] z-20" />
       </div>
 
       {/* Floating Navbar */}
       <div className="w-full sticky top-5 z-50 px-4 sm:px-6">
-        <header className="max-w-5xl mx-auto h-14 rounded-full border border-gray-800/80 bg-gray-950/60 backdrop-blur-xl flex items-center justify-between px-6 shadow-2xl shadow-black/40">
+        <header className="max-w-5xl mx-auto h-14 rounded-full border border-gray-800/80 bg-gray-950/90 flex items-center justify-between px-6 shadow-2xl shadow-black/40">
           <div className="flex items-center space-x-2.5 cursor-pointer">
             <div className="w-5 h-5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-md flex items-center justify-center transform rotate-12">
               <Terminal className="w-3 h-3 text-white -rotate-12" />
@@ -209,6 +210,7 @@ export default function Home() {
             <a href="#home" className="hover:text-white px-4 py-2 rounded-full transition-colors">Home</a>
             <a href="#about" className="hover:text-white px-4 py-2 rounded-full transition-colors">About</a>
             <a href="#services" className="hover:text-white px-4 py-2 rounded-full transition-colors">Services</a>
+            <a href="#portfolio" className="hover:text-white px-4 py-2 rounded-full transition-colors">Portfolio</a>
             <a href="#process" className="hover:text-white px-4 py-2 rounded-full transition-colors">Process</a>
             <a href="#team" onClick={(e) => { e.preventDefault(); setIsTeamVisible(true); setTimeout(() => { document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }} className="hover:text-white px-4 py-2 rounded-full transition-colors cursor-pointer">Team</a>
             <a href="#contact" className="hover:text-white px-4 py-2 rounded-full transition-colors">Contact</a>
@@ -224,7 +226,7 @@ export default function Home() {
       <section id="home" className="relative pt-20 pb-20 md:pt-28 md:pb-24 max-w-7xl mx-auto px-6">
         <div className="absolute top-[-10%] left-1/4 w-[800px] h-[400px] bg-cyan-600/10 blur-[150px] rounded-full pointer-events-none z-[1]" />
 
-        <button onClick={handleNextVideo} className="absolute bottom-4 left-6 z-20 hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/40 border border-gray-800 hover:border-cyan-500/40 text-[10px] font-mono uppercase tracking-wider text-gray-400 hover:text-white rounded-full backdrop-blur-md transition-all duration-300">
+        <button onClick={handleNextVideo} className="absolute bottom-4 left-6 z-20 hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/80 border border-gray-800 hover:border-cyan-500/40 text-[10px] font-mono uppercase tracking-wider text-gray-400 hover:text-white rounded-full transition-all duration-300">
           <Video className="w-3 h-3 text-cyan-400" /> Switch Ambience
         </button>
 
@@ -251,7 +253,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={200} className="hidden lg:block lg:col-span-5 relative">
-            <div className="w-80 p-6 bg-[#0b1120]/80 border border-gray-800/80 rounded-2xl backdrop-blur-md shadow-2xl space-y-6 ml-auto">
+            <div className="w-80 p-6 bg-[#0b1120]/95 border border-gray-800/80 rounded-2xl shadow-2xl space-y-6 ml-auto">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-cyan-600/10 border border-cyan-500/20 rounded-lg text-cyan-400">
                   <Globe className="w-4 h-4 animate-spin" style={{ animationDuration: '8s' }} />
@@ -329,7 +331,7 @@ export default function Home() {
                 <div className="absolute top-0 left-1/2 w-2 h-2 sm:w-3 sm:h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_#06B6D4] -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute top-[14.6%] left-[85.3%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '30s', animationTimingFunction: 'linear', animationDirection: 'reverse' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/95 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl shadow-lg whitespace-nowrap text-center">
                       <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">LLM Ready</div>
                       <div className="text-[10px] sm:text-xs font-bold text-cyan-400">GPT-4o</div>
                     </div>
@@ -337,7 +339,7 @@ export default function Home() {
                 </div>
                 <div className="absolute top-[85.3%] left-[14.6%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '30s', animationTimingFunction: 'linear', animationDirection: 'reverse' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/95 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl shadow-lg whitespace-nowrap text-center">
                       <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Accuracy</div>
                       <div className="text-[10px] sm:text-xs font-bold text-white">97.3%</div>
                     </div>
@@ -349,7 +351,7 @@ export default function Home() {
                 <div className="absolute top-1/2 right-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-400 rounded-full shadow-[0_0_10px_#3B82F6] translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute top-[14.6%] left-[14.6%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '40s', animationTimingFunction: 'linear', animationDirection: 'normal' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/95 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl shadow-lg whitespace-nowrap text-center">
                       <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Response</div>
                       <div className="text-[10px] sm:text-xs font-bold text-white">&lt; 1ms</div>
                     </div>
@@ -357,7 +359,7 @@ export default function Home() {
                 </div>
                 <div className="absolute top-[85.3%] left-[85.3%] w-0 h-0">
                   <div className="animate-spin w-full h-full" style={{ animationDuration: '40s', animationTimingFunction: 'linear', animationDirection: 'normal' }}>
-                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/90 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl backdrop-blur-md shadow-lg whitespace-nowrap text-center">
+                    <div className="absolute -translate-x-1/2 -translate-y-1/2 bg-[#0b1120]/95 border border-gray-800 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg sm:rounded-xl shadow-lg whitespace-nowrap text-center">
                       <div className="text-[7px] sm:text-[8px] text-gray-500 font-mono uppercase tracking-wider mb-0.5">Uptime</div>
                       <div className="text-[10px] sm:text-xs font-bold text-cyan-400">99.9%</div>
                     </div>
@@ -369,7 +371,7 @@ export default function Home() {
                 <div className="absolute bottom-0 left-1/2 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_#06B6D4] -translate-x-1/2 translate-y-1/2" />
               </div>
 
-              <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 bg-[#0b1120] border border-gray-700/80 rounded-2xl flex flex-col items-center justify-center shadow-2xl backdrop-blur-md">
+              <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 bg-[#0b1120] border border-gray-700/80 rounded-2xl flex flex-col items-center justify-center shadow-2xl">
                 <div className="p-2 sm:p-3 bg-cyan-500/10 rounded-xl mb-2 sm:mb-3"><Network className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" /></div>
                 <div className="text-[8px] sm:text-[10px] font-mono tracking-widest text-cyan-400 uppercase">AI Core</div>
                 <div className="text-[10px] sm:text-xs text-gray-400 mt-1">Always Learning</div>
@@ -507,7 +509,7 @@ export default function Home() {
 
                     return (
                       <div key={index} className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-700 z-30 ${isActive ? 'scale-110' : 'scale-90 opacity-40 hover:opacity-80'}`} style={{ top: pos.top, left: pos.left }}>
-                        <div className={`px-4 py-2 rounded-xl border backdrop-blur-md whitespace-nowrap flex items-center gap-2 transition-colors duration-500 ${isActive ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]' : 'bg-[#0b1120]/90 border-gray-800'}`}>
+                        <div className={`px-4 py-2 rounded-xl border whitespace-nowrap flex items-center gap-2 transition-colors duration-500 ${isActive ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]' : 'bg-[#0b1120]/95 border-gray-800'}`}>
                           <span className={`text-[10px] font-mono ${isActive ? 'text-cyan-400' : 'text-gray-600'}`}>{step.num}</span>
                           <span className={`text-xs font-bold tracking-wide ${isActive ? 'text-white' : 'text-gray-500'}`}>{step.short}</span>
                         </div>
@@ -533,16 +535,16 @@ export default function Home() {
 
       {/* --- NEW CTA SECTION --- */}
       <section className="relative py-32 border-t border-gray-900 bg-[#02050B] overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-50 pointer-events-none mix-blend-screen">
-          <video autoPlay muted loop playsInline className="w-full h-full object-cover object-center">
+        <div className="absolute inset-0 z-0 pointer-events-none bg-[#030712]" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+          <video autoPlay muted loop playsInline preload="auto" className="w-full h-full object-cover object-center" style={{ willChange: 'transform', transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden' }}>
             <source src="/video3.webm" type="video/webm" />
           </video>
-          <div className="absolute inset-0 bg-[#030712]/60" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-10" />
+          <div className="absolute inset-0 bg-black/70 z-10" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-10 z-20" />
         </div>
 
-        <Reveal className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gray-800 bg-[#0b1120]/80 backdrop-blur-sm mb-8">
+        <Reveal className="relative z-30 max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gray-800 bg-[#0b1120]/90 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-400">AI Systems Ready • Let's Build</span>
           </div>
@@ -565,6 +567,135 @@ export default function Home() {
             </a>
           </div>
         </Reveal>
+      </section>
+
+      {/* --- PORTFOLIO / PROJECTS SHOWCASE SECTION --- */}
+      <section id="portfolio" className="py-24 border-t border-gray-900 bg-[#030712] relative overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-cyan-600/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <Reveal className="mb-16 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-800 bg-gray-900/50 text-[10px] font-mono uppercase tracking-widest text-gray-400 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" /> Our Work
+            </div>
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
+              Projects <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Delivered Worldwide</span>
+            </h2>
+            <p className="text-gray-400 font-light text-sm sm:text-base leading-relaxed">
+              From recruitment platforms to healthcare portals — we've shipped production-grade solutions across industries. Here's a selection of our live client work.
+            </p>
+          </Reveal>
+
+          {/* Category Filter Badges */}
+          <Reveal delay={50} className="mb-12">
+            <div className="flex flex-wrap gap-3">
+              {[
+                { label: 'All Projects', count: 10 },
+                { label: 'Platforms', count: 3, icon: <Building2 className="w-3 h-3" /> },
+                { label: 'Non-Profit', count: 3, icon: <Heart className="w-3 h-3" /> },
+                { label: 'Healthcare', count: 1, icon: <Stethoscope className="w-3 h-3" /> },
+                { label: 'Corporate', count: 3, icon: <Briefcase className="w-3 h-3" /> },
+              ].map((cat, idx) => (
+                <div key={idx} className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all duration-300 cursor-default ${
+                  idx === 0
+                    ? 'bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)]'
+                    : 'bg-[#0b1120] border border-gray-800 text-gray-500 hover:border-gray-700 hover:text-gray-300'
+                }`}>
+                  {cat.icon && cat.icon}
+                  {cat.label}
+                  <span className={`ml-1 text-[9px] px-1.5 py-0.5 rounded-full ${
+                    idx === 0 ? 'bg-cyan-500/20 text-cyan-300' : 'bg-gray-800 text-gray-500'
+                  }`}>{cat.count}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Projects Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { name: 'Deep Dive Hire', url: 'https://deepdivehire.com', category: 'Platforms', desc: 'Advanced talent acquisition platform with AI-powered candidate matching.', color: 'blue' },
+              { name: 'Keyway Solutions', url: 'https://keywaysolutions.com', category: 'Platforms', desc: 'Enterprise solutions platform delivering custom tech infrastructure services.', color: 'cyan' },
+              { name: 'Capstone Recruiter', url: 'https://capstonerecruiter.com', category: 'Platforms', desc: 'Professional staffing portal with end-to-end recruitment workflow automation.', color: 'blue' },
+              { name: 'Tulsa Nonprofit', url: 'https://tulsanonprofit.org', category: 'Non-Profit', desc: 'Community-focused nonprofit hub fostering civic engagement and outreach programs.', color: 'emerald' },
+              { name: 'Fund It Showit', url: 'https://funditshowit.com', category: 'Non-Profit', desc: 'Fundraising platform enabling nonprofits to showcase campaigns visually.', color: 'emerald' },
+              { name: 'Sponsor Funded', url: 'https://sponsorfunded.com', category: 'Non-Profit', desc: 'Sponsorship management system connecting donors with social impact projects.', color: 'emerald' },
+              { name: 'Prestigious Health', url: 'https://prestigioushomehealth.com', category: 'Healthcare', desc: 'Home healthcare services portal with patient management and scheduling.', color: 'rose' },
+              { name: 'Geo Solutions', url: 'https://geosolutionspk.com', category: 'Corporate', desc: 'Geographic consulting firm platform with project portfolio and GIS services.', color: 'violet' },
+              { name: 'A New View Properties', url: 'https://anewviewproperties.com', category: 'Corporate', desc: 'Real estate platform featuring property listings with virtual tour integration.', color: 'violet' },
+              { name: 'Zuid 55', url: 'https://zuid55.com', category: 'Corporate', desc: 'Premium corporate brand experience with modern design and global presence.', color: 'violet' },
+            ].map((project, index) => {
+              const colorMap: Record<string, { border: string; bg: string; text: string; glow: string; badge: string; badgeText: string }> = {
+                cyan: { border: 'border-cyan-500/30', bg: 'bg-cyan-500/10', text: 'text-cyan-400', glow: 'rgba(6,182,212,0.15)', badge: 'bg-cyan-500/15 border-cyan-500/25', badgeText: 'text-cyan-400' },
+                blue: { border: 'border-blue-500/30', bg: 'bg-blue-500/10', text: 'text-blue-400', glow: 'rgba(59,130,246,0.15)', badge: 'bg-blue-500/15 border-blue-500/25', badgeText: 'text-blue-400' },
+                emerald: { border: 'border-emerald-500/30', bg: 'bg-emerald-500/10', text: 'text-emerald-400', glow: 'rgba(16,185,129,0.15)', badge: 'bg-emerald-500/15 border-emerald-500/25', badgeText: 'text-emerald-400' },
+                rose: { border: 'border-rose-500/30', bg: 'bg-rose-500/10', text: 'text-rose-400', glow: 'rgba(244,63,94,0.15)', badge: 'bg-rose-500/15 border-rose-500/25', badgeText: 'text-rose-400' },
+                violet: { border: 'border-violet-500/30', bg: 'bg-violet-500/10', text: 'text-violet-400', glow: 'rgba(139,92,246,0.15)', badge: 'bg-violet-500/15 border-violet-500/25', badgeText: 'text-violet-400' },
+              };
+              const c = colorMap[project.color];
+              return (
+                <Reveal key={index} delay={index * 60}>
+                  <a href={project.url} target="_blank" rel="noopener noreferrer"
+                    className="group relative block p-7 bg-[#0b1120] border border-gray-800/80 rounded-2xl hover:border-gray-700 transition-all duration-500 overflow-hidden h-full"
+                  >
+                    {/* Hover glow */}
+                    <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ backgroundColor: c.glow }} />
+                    <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-current to-transparent ${c.text} opacity-0 group-hover:opacity-60 transition-opacity duration-500`} />
+
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-5 relative z-10">
+                      <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-mono uppercase tracking-widest ${c.badge} ${c.badgeText}`}>
+                        {project.category === 'Platforms' && <Building2 className="w-2.5 h-2.5" />}
+                        {project.category === 'Non-Profit' && <Heart className="w-2.5 h-2.5" />}
+                        {project.category === 'Healthcare' && <Stethoscope className="w-2.5 h-2.5" />}
+                        {project.category === 'Corporate' && <Briefcase className="w-2.5 h-2.5" />}
+                        {project.category}
+                      </div>
+                      <div className={`w-9 h-9 rounded-xl border border-gray-800 flex items-center justify-center text-gray-600 group-hover:${c.border} group-hover:${c.text} bg-[#030712] transition-all duration-300`}>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10">
+                      <h3 className="text-xl font-extrabold text-white mb-2 group-hover:text-cyan-50 transition-colors duration-300">{project.name}</h3>
+                      <p className="text-sm text-gray-400 font-light leading-relaxed mb-5 group-hover:text-gray-300 transition-colors duration-300">{project.desc}</p>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between relative z-10 pt-4 border-t border-gray-800/60">
+                      <div className="flex items-center gap-2">
+                        <Globe className={`w-3 h-3 ${c.text} opacity-60`} />
+                        <span className="text-[11px] font-mono text-gray-500 group-hover:text-gray-300 transition-colors truncate">{project.url.replace('https://', '')}</span>
+                      </div>
+                      <span className={`text-[10px] font-mono tracking-widest uppercase ${c.text} opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0`}>Visit →</span>
+                    </div>
+                  </a>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Stats bar */}
+          <Reveal delay={200} className="mt-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { value: '10+', label: 'Live Projects', sub: 'Delivered worldwide' },
+                { value: '4', label: 'Industries', sub: 'Platforms · Nonprofit · Health · Corp' },
+                { value: '99%', label: 'Client Retention', sub: 'Long-term partnerships' },
+                { value: '24/7', label: 'Active Support', sub: 'Post-launch maintenance' },
+              ].map((stat, idx) => (
+                <div key={idx} className="p-6 bg-[#0b1120]/60 border border-gray-800/60 rounded-2xl text-center group hover:border-cyan-500/20 transition-all duration-300">
+                  <div className="text-3xl font-extrabold text-white mb-1 group-hover:text-cyan-400 transition-colors duration-300">{stat.value}</div>
+                  <div className="text-[11px] font-mono text-gray-400 uppercase tracking-widest mb-1">{stat.label}</div>
+                  <div className="text-[10px] text-gray-600 font-light">{stat.sub}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* TEAM SECTION */}
